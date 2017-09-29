@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>8周年新客福利</title>
+  <meta name="description" content="mxd">
+  <meta name="viewport" content="initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <meta name="format-detection" content="telephone=no">
+  <!-- safari full screen -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta id="apple-mobile-web-app-title" name="apple-mobile-web-app-title" content="mxd">
+  <!--build:css css/main.min.css-->
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <!--endbuild-->
+  <script type="text/javascript" src="https://m.nonobank.com/nonoutil/js/tongdun.js"></script> 
+  <script type="text/javascript" src="https://m.nonobank.com/tingYun/tingyun-rum-nono-activity.js" async></script>  
+
+  <script>
+    //声明_czc对象:
+    var _czc = _czc || [];
+    //绑定siteid，请用您的siteid替换下方"XXXXXXXX"部分
+    _czc.push(["_setAccount", "1260370771"]);
+  </script>
+</head>
+
+<body>
+  <img src="images/nono-banner.jpg" alt="" width="100%">
+  <section id='app'>
+    <form>
+      <div class="user-input row row-center">
+        <span class="icon icon1"></span>
+        <input class="col" type="tel" placeholder='请输入手机号' maxlength="11" v-model='user.phone' v-focus="focusStatus == 3" @blur='blur()'>
+      </div>
+      <div class="relative code-input" :class="{'fadeout-left':timeCount >= 0}">
+        <div class="row code-img">
+          <div class="user-input col">
+            <span class="icon icon2"></span>
+            <input class="col" type="text" maxlength="4" placeholder='请输入安全码' v-model='user.codeImg' v-focus="focusStatus == 1">
+          </div>
+          <span class="code-change" @click="refreshCaptcha()" v-cloak><img :src="imgSrc"></span>
+        </div>
+        <div class="row code-msg">
+          <div class="user-input col">
+            <span class="icon icon3"></span>
+            <input class="col" type="tel" maxlength="6" placeholder="短信验证码" v-model='user.codeMsg' v-focus="focusStatus == 2">
+          </div>
+          <span class="code-change" v-if='timeCount > 0' v-cloak>{{timeCount}}s</span>
+          <span class="code-change" v-if='timeCount <= 0' @click='getCode()'>重新获取</span> 
+        </div>
+      </div>
+      <button class="btn" type="button" @click='register()'>注册领888元现金券</button>
+      <div class="row agreement">
+        <input type="checkbox" id='agreement' v-model='user.agreement'>
+        <label for="agreement" class="col">
+          <span class='checked row row-center'></span>
+          <p class="col" @click='goRegPrivacy()'>我已阅读并同意《注册协议与隐私条款》</p>
+        </label>
+        <a class='f12' href="javascript:void(0)" @click.prevent='gotoWxsite(1)'>已有账号登录</a>
+      </div>  
+    </form>
+    <ul class="prompt">
+      <li class="row">
+        <span class="icon icon1"></span> 
+        <div class="col">
+          <i>运营8年 行业元老</i>
+          <p>成立于2009年，是国内较早成立的互金平台之一，经得住时间检验的平台才靠得住！</p>
+        </div>
+      </li>
+      <li class="row">
+        <span class="icon icon2"></span> 
+        <div class="col">
+          <i>银行存管 安心投资</i>
+          <p>麦子金服财富与徽商银行资金存管已正式上线，用户资金与平台隔离，让投资更安心！</p>
+        </div>
+      </li>
+      <li class="row">
+        <span class="icon icon3"></span> 
+        <div class="col">
+          <i>背景雄厚 实力强大</i>
+          <p>控股股东2015年获得海通创新战略投资；麦子金服财富注册资本为1.08亿。</p>
+        </div>
+      </li>
+      <li class="row">
+        <span class="icon icon4"></span> 
+        <div class="col">
+          <i>水滴风控 资产优质</i>
+          <p>自助研发水滴风控，坏账率极低；技术系统自动匹配资产，保障真实优质有效。</p>
+        </div>
+      </li>
+    </ul>
+    <loading :show='isLoading'></loading>
+    <toast-msg :msg='toastMsg' @hide = 'hide()'></toast-msg>
+  
+    <footer class="gray">
+      <div class="row row-center">
+        <img src="images/nono-footer.png" alt="" width="133">
+        <span>全国投资电话<br>1010-0668</span>
+      </div>
+      <p>上海诺诺镑客金融信息服务有限公司 沪ICP备13003999号 | 沪公网安备 31010402000145号</p>
+    </footer>
+
+  </section>
+  <!-- build:js js/vendor.js -->
+  <!-- bower:js -->
+  <script src="/bower_components/vue/dist/vue.min.js"></script>
+  <script src="/bower_components/js-md5/src/md5.js"></script>
+  <script src="/bower_components/es6-promise/es6-promise.auto.min.js"></script>
+  <script src="/bower_components/axios/dist/axios.js"></script>
+  <!-- endbower -->
+  <!--endbuild-->
+  <!--build:js js/util.min.js -->
+  <script src="js/utils.js"></script>
+  <script src="js/qs.js"></script>
+  <script src="js/encryptSign.js"></script>
+  <script src="js/http.js"></script>
+  <!--endbuild-->
+  <!--build:js js/index.min.js -->
+  <script src="js/components_js/loading.js"></script>
+  <script src="js/components_js/toast.js"></script>
+  <script src="js/src/index.js"></script>
+  <!--endbuild-->
+  <script>
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan style='display:none' id='cnzz_stat_icon_1260370771'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1260370771' %3E%3C/script%3E"));
+  </script>
+</body>
+
+</html>
